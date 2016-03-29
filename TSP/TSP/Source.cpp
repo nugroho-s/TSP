@@ -1,4 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
+//file D:\repo\TSP
 
 #include <iostream>
 #include <fstream>
@@ -11,6 +12,8 @@ using namespace std;
 
 #define maks 100 //maksimum matriks dari file
 #define delim ',' //delimiter(pemisah) file input
+
+void printmatriks(int [maks][maks],int);
 
 int main() {
 	ifstream inf("graf.txt", std::ifstream::in);
@@ -41,13 +44,17 @@ int main() {
 			pch = strtok(NULL, ",");
 		}
 	}
-	for (int i = 0; i < c; i++) {
-		for (int j = 0; j < c; j++) {
-			cout << mati[i][j] << " ";
-		}
-		cout << endl;
-	}
+	printmatriks(mati, c);
 	inf.close();
 	getchar();
 	return 0;
+}
+
+void printmatriks(int mat[maks][maks],int s) {
+	for (int i = 0; i < s; i++) {
+		for (int j = 0; j < s; j++) {
+			cout << mat[i][j] << " ";
+		}
+		cout << endl;
+	}
 }
