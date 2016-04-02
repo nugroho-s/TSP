@@ -23,7 +23,7 @@ void printmatriks(int [maks][maks],int,int);
 
 int main() {
 	int ukuran;
-	int solusi[5] = { 0,3,-1,-1,0 };
+	int solusi[5] = { 0,3,2,-1,0 };
 	int digit = 0;
 	ifstream inf("graf.txt", std::ifstream::in);
 	char matc[maks][maks];

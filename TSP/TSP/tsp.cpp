@@ -31,52 +31,79 @@ void TSP::get2min(int idx, int* imin1, int* imin2) {
 }
 
 float TSP::getbobot(int arr[]) {
+	//harusnya sudah benar
 	int i1, i2;
 	int ikiri, ikanan;
 	ikiri = ikanan = -1;
-	int idxp = -1;
+	int idxp = -1; //indeks di array solusi
 	float sum = 0;
 	for (int i = 0; i < ukuran; i++) {
-		if (arr[i] == -1) {
+		//cari di solusi
+		for (int j = 0; j <= ukuran; j++) {
+			if (arr[j] == i) {
+				idxp = j;
+				break;
+			}
+		}
+		if (idxp == -1) {
+			//kasus tidak ada di solusi
 			get2min(i, &i1, &i2);
 			sum = sum + mati[i][i1] + mati[i][i2];
 		}
 		else {
-			if (i > 0) {
-				//cek kiri
-				if (arr[i - 1] != -1) {
-					ikiri = arr[i - 1];
+			//kasus ada di solusi
+			if (idxp == 0) {
+				//adalah simpul awal
+				//cek kanan
+				if (arr[idxp + 1] != -1) {
+					ikanan = arr[idxp + 1];
+					sum += mati[i][ikanan];
+				}
+				//cek belakang
+				if (arr[ukuran - 1] != -1) {
+					ikiri = arr[ukuran - 1];
 					sum += mati[i][ikiri];
 				}
 			}
-			if (i + 1 < ukuran) {
+			else {
+				//bukan simpul awal
+				//cek kiri
+				if (arr[idxp - 1] != -1) {
+					ikiri = arr[idxp - 1];
+					sum += mati[i][ikiri];
+				}
 				//cek kanan
-				if (arr[i + 1] != -1) {
-					ikanan = arr[i + 1];
+				if (arr[idxp + 1] != -1) {
+					ikanan = arr[idxp + 1];
 					sum += mati[i][ikanan];
 				}
 			}
 			if (!((ikanan != -1) && (ikiri != -1))) {
+				//kasus jika tidak keduanya (kanan dan kiri) ada
 				get2min(i, &i1, &i2);
 				if (ikanan != -1) {
+					//jika kanan ada
 					if (ikanan == i1)
 						sum += mati[i][i2];
 					else
 						sum += mati[i][i1];
 				}
 				else if (ikiri != -1) {
+					//jika kiri ada
 					if (ikiri == i1)
 						sum += mati[i][i2];
 					else
 						sum += mati[i][i1];
 				}
 				else {
+					//jika keduanya tidak ada
 					sum = sum + mati[i][i1] + mati[i][i2];
 				}
-				ikiri = ikanan = -1;
 			}
 		}
 		cout << i << "   " << sum << endl;
+		idxp = -1;
+		ikiri = ikanan = -1;
 	}
 	sum /= 2;
 	return sum;
