@@ -7,10 +7,10 @@
 #include <cstring>
 #include <string>
 #include <cstdio>
+#include "tsp.h"
 
 using namespace std;
 
-#define maks 100 //maksimum matriks dari file
 #define delim ',' //delimiter(pemisah) file input
 
 void printmatriks(int [maks][maks],int);
@@ -31,6 +31,7 @@ int main() {
 	int baris = 0;
 	int kolom = 0;
 	int temp;
+	
 	for (int i = 0; i < c; i++) {
 		pch = strtok(matc[i], ",");
 		while (pch != NULL) {
