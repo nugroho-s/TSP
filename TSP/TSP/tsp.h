@@ -2,21 +2,16 @@
 
 #define maks 100 //maksimum matriks dari file
 
-extern int ukuran;
 extern int mati[maks][maks];
 
-class elemen {
-private:
-	int node;
-	int* anak;
+class TSP {
 public:
-	elemen(int);
-	
-};
-
-class pohon {
-
+	//!ctor dengan ukuran
+	TSP(int);
+	//!mencari bobot dari array best so far
+	float getbobot(int[]);
+	//!mencari dua indeks minimal dari baris idx
+	void get2min(int idx, int*, int*);
 private:
-	int size;
-	
+	int ukuran;
 };
