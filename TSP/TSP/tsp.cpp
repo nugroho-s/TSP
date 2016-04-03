@@ -108,3 +108,22 @@ float TSP::getbobot(int arr[]) {
 	sum /= 2;
 	return sum;
 }
+
+simpul TSP::carisolusi() {
+	tree<simpul> tr;
+	tree<simpul>::iterator top,root;
+	top = tr.begin();
+	simpul S;
+	S.hidup = true;
+	S.sol = new int[ukuran+1];
+	for (int i = 0; i < ukuran; i++)
+		S.sol[i] = -1;
+	S.sol[0] = 0;
+	S.sol[ukuran] = 0;
+	float bobot = getbobot(S.sol);
+	cout << endl << "bobot = " << bobot;
+	S.bobot = bobot;
+	root = tr.insert(top, S);
+	cout << endl << "bobot = " << root->bobot;
+	return S;
+}

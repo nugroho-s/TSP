@@ -1,8 +1,16 @@
 #pragma once
+#include "tree.hh"
 
-#define maks 100 //maksimum matriks dari file
+#define maks 30 //maksimum matriks dari file
 
 extern int mati[maks][maks];
+extern int ukuran;
+
+typedef struct {
+	int* sol;
+	float bobot;
+	bool hidup;
+}simpul;
 
 class TSP {
 public:
@@ -12,6 +20,6 @@ public:
 	float getbobot(int[]);
 	//!mencari dua indeks minimal dari baris idx
 	void get2min(int idx, int*, int*);
-private:
-	int ukuran;
+	//!membuat pohon
+	simpul carisolusi();
 };

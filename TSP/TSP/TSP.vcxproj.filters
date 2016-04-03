@@ -29,5 +29,8 @@
     <ClInclude Include="tsp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="tree.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

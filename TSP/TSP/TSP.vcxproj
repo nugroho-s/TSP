@@ -153,6 +153,7 @@
     <Text Include="graf.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="tree.hh" />
     <ClInclude Include="tsp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

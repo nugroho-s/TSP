@@ -14,6 +14,7 @@
 using namespace std;
 
 int mati[maks][maks];
+int ukuran;
 
 #define delim ',' //delimiter(pemisah) file input
 
@@ -22,8 +23,6 @@ int getdigit(int);
 void printmatriks(int [maks][maks],int,int);
 
 int main() {
-	int ukuran;
-	int solusi[5] = { 0,3,2,-1,0 };
 	int digit = 0;
 	ifstream inf("graf.txt", std::ifstream::in);
 	char matc[maks][maks];
@@ -63,8 +62,7 @@ int main() {
 	TSP tsp(c);
 	printmatriks(mati, c,digit);
 	inf.close();
-	float bobot = tsp.getbobot(solusi);
-	cout << endl << "bobot = " << bobot;
+	tsp.carisolusi();
 	_getch();
 	return 0;
 }
