@@ -67,9 +67,9 @@ int main() {
 	printmatriks(mati, c,digit);
 	inf.close();
 	tsp.carisolusi();
-	cout << "bobot awal = " << bobot_awal << endl;
+	//well, karena simpul sudah terlanjur mulai dari nol, tinggal tambah 1
 	for (int i = 0; i < usimpul; i++) {
-		cout << best_sol_so_far.sol[i] << " ";
+		cout << best_sol_so_far.sol[i]+1 << " ";
 	}
 	cout << endl;
 	cout << "bobot = " << best_sol_so_far.bobot << endl;

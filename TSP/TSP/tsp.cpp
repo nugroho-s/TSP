@@ -213,7 +213,7 @@ void TSP::buatpohon(tree<simpul> t) {
 		else {
 			//kasus 2: simpul bukan daun
 			//jika sudah melebihi bobot awal, bunuh, keluar.
-			if (root->bobot > bobot_awal) {
+			if (root->bobot > best_sol_so_far.bobot) {
 				printf("return bobot %f\n", root->bobot);
 				root->hidup = false;
 				return;
