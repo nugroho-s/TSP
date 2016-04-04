@@ -38,8 +38,11 @@ void simpul::setbobot() {
 }
 
 bool simpul::is_daun() {
-	if (getfirstundef() == -1)
+	if (getfirstundef() == -1) {
+		printf("true\n");
 		return true;
+	}
+	printf("false\n");
 	return false;
 }
 
@@ -187,6 +190,7 @@ int* TSP::carisolusi() {
 void TSP::buatpohon(tree<simpul> t) {
 	tree<simpul>::iterator root,p;
 	root = t.begin();
+	root->printsol();
 	if (root->gethidup()) {
 		if (root->is_daun()) {
 			printf("daun bobot %f\n", root->bobot);
@@ -224,8 +228,7 @@ void TSP::buatpohon(tree<simpul> t) {
 					//tambahkan simpul baru ke anak
 					temp.sol[idx] = i;
 					temp.setbobot();
-					p = t.append_child(t.begin(), temp);
-					p->printsol();
+					t.append_child(t.begin(), temp);
 				}
 			}
 			//lakukan rekursif
