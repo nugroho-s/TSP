@@ -9,6 +9,7 @@
 #include <cstdio>
 #include <iomanip>
 #include <conio.h>
+#include <chrono>
 #include "tsp.h"
 
 using namespace std;
@@ -19,6 +20,7 @@ int ukuran;
 int usimpul;
 simpul best_sol_so_far;
 float bobot_awal;
+int jsimpul = 0;
 
 #define delim ',' //delimiter(pemisah) file input
 
@@ -62,17 +64,29 @@ int main() {
 	}
 	//akhir baca file
 	//inisialisasi best so far
+	typedef std::chrono::high_resolution_clock Time;
+	typedef std::chrono::milliseconds ms;
+	typedef std::chrono::duration<float> fsec;
 	best_sol_so_far.bobot = maksbssf;
 	TSP tsp;
 	printmatriks(mati, c,digit);
 	inf.close();
+	auto t0 = Time::now();
 	tsp.carisolusi();
+	auto t1 = Time::now();
+	fsec fs = t1 - t0;
+	ms d = std::chrono::duration_cast<ms>(fs);
+	cout << endl;
 	//well, karena simpul sudah terlanjur mulai dari nol, tinggal tambah 1
 	for (int i = 0; i < usimpul; i++) {
 		cout << best_sol_so_far.sol[i]+1 << " ";
+		if (i < usimpul - 1)
+			cout << "-> ";
 	}
 	cout << endl;
 	cout << "bobot = " << best_sol_so_far.bobot << endl;
+	cout << "jumlah simpul yang dibangkitkan = " << jsimpul << endl;
+	cout << "waktu eksekusi = " << d.count() << "ms\n";
 	_getch();
 	return 0;
 }

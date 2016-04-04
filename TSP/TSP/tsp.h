@@ -8,6 +8,7 @@ extern int mati[maks][maks];
 extern int ukuran;
 extern int usimpul;
 extern float bobot_awal;
+extern int jsimpul;
 
 class simpul {
 public:

@@ -39,10 +39,8 @@ void simpul::setbobot() {
 
 bool simpul::is_daun() {
 	if (getfirstundef() == -1) {
-		printf("true\n");
 		return true;
 	}
-	printf("false\n");
 	return false;
 }
 
@@ -182,6 +180,7 @@ int* TSP::carisolusi() {
 	S.bobot = bobot;
 	bobot_awal = bobot;
 	root = tr.insert(top, S);
+	jsimpul++;
 	now = tr.begin();
 	buatpohon(root);
 	return NULL;
@@ -190,21 +189,17 @@ int* TSP::carisolusi() {
 void TSP::buatpohon(tree<simpul> t) {
 	tree<simpul>::iterator root,p;
 	root = t.begin();
-	root->printsol();
 	if (root->gethidup()) {
 		if (root->is_daun()) {
-			printf("daun bobot %f\n", root->bobot);
 			//kasus 1: simpul adalah daun
 			if (best_sol_so_far.kosong()) {
 				//kasus 1.1: best sol so far kosong
-				//printf("%f\n", root->bobot);
 				best_sol_so_far = *root;
 				best_sol_so_far.bobot = (root->bobot);
 			}
 			else {
 				//kasus 1.2: best sol so far ada
 				if (best_sol_so_far.bobot > (root->bobot)) {
-					//printf("%f\n", root->bobot);
 					best_sol_so_far = *root;
 					best_sol_so_far.bobot = (root->bobot);
 				}
@@ -214,7 +209,6 @@ void TSP::buatpohon(tree<simpul> t) {
 			//kasus 2: simpul bukan daun
 			//jika sudah melebihi bobot awal, bunuh, keluar.
 			if (root->bobot > best_sol_so_far.bobot) {
-				printf("return bobot %f\n", root->bobot);
 				root->hidup = false;
 				return;
 			}
@@ -225,10 +219,11 @@ void TSP::buatpohon(tree<simpul> t) {
 			int idx = root->getfirstundef();
 			for (int i = 0; i < ukuran; i++) {
 				if (!(root->insol(i))) {
-					//tambahkan simpul baru ke anak
+					//tambahkan simpul baru menjadi anak
 					temp.sol[idx] = i;
 					temp.setbobot();
 					t.append_child(t.begin(), temp);
+					jsimpul++;
 				}
 			}
 			//lakukan rekursif
@@ -236,16 +231,14 @@ void TSP::buatpohon(tree<simpul> t) {
 			s = t.begin(t.begin());
 			int ii = 0;
 			while (s != t.end(t.begin())) {
-				//s->printsol();
 				buatpohon(s);
 				++s;
 				ii++;
 			}
-			printf("%d\n", ii);
 		}
 	}
 	else {
-		printf("return bobot %f\n", root->bobot);
+		//jika simpul mati, keluar
 		return;
 	}
 }
