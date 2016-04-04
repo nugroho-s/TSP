@@ -18,6 +18,7 @@ int mati[maks][maks];
 int ukuran;
 int usimpul;
 simpul best_sol_so_far;
+float bobot_awal;
 
 #define delim ',' //delimiter(pemisah) file input
 
@@ -31,6 +32,7 @@ int main() {
 	char matc[maks][maks];
 	char* pch;
 	int c = 0;
+	//mulai baca file
 	if (!inf.good()) {
 		cout << "error" << endl;
 	}
@@ -58,10 +60,18 @@ int main() {
 			pch = strtok(NULL, ",");
 		}
 	}
+	//akhir baca file
+	//inisialisasi best so far
+	best_sol_so_far.bobot = maksbssf;
 	TSP tsp;
 	printmatriks(mati, c,digit);
 	inf.close();
 	tsp.carisolusi();
+	for (int i = 0; i < usimpul; i++) {
+		cout << best_sol_so_far.sol[i] << " ";
+	}
+	cout << endl;
+	cout << "bobot = " << best_sol_so_far.bobot << endl;
 	_getch();
 	return 0;
 }

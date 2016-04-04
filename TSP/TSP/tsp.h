@@ -2,14 +2,17 @@
 #include "tree.hh"
 
 #define maks 30 //maksimum matriks dari file
+#define maksbssf 99999 //bobot best sol so far awal, dibuat besar agar tidak terpilih
 
 extern int mati[maks][maks];
 extern int ukuran;
 extern int usimpul;
+extern float bobot_awal;
 
 class simpul {
 public:
 	simpul();
+	simpul(const simpul& obj);
 	//mengembalikan simpul pertama yang bernilai -1
 	int getfirstundef();
 	bool gethidup();
@@ -21,8 +24,9 @@ public:
 	bool kosong();
 	//mengembalikan apakah int ada di sol
 	bool insol(int);
+	//print solusi
+	void printsol();
 	friend class TSP;
-private:
 	int* sol;
 	float bobot;
 	bool hidup;

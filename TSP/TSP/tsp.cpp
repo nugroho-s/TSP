@@ -11,6 +11,15 @@ simpul::simpul() {
 	bobot = -1;
 }
 
+simpul::simpul(const simpul& obj) {
+	sol = new int[usimpul];
+	for (int i = 0; i < usimpul;i++){
+		sol[i] = obj.sol[i];
+	}
+	hidup = obj.hidup;
+	bobot = obj.bobot;
+}
+
 int simpul::getfirstundef() {
 	for (int i = 0; i < usimpul; i++) {
 		if (sol[i] == -1)
@@ -35,18 +44,23 @@ bool simpul::is_daun() {
 }
 
 bool simpul::kosong() {
-	for (int i = 1; i < ukuran; i++) {
-		if (sol[i] != -1)
-			return false;
-	}
-	return true;
+	return (bobot == maksbssf);
 }
+
 bool simpul::insol(int x) {
 	for (int i = 0; i < usimpul; i++) {
 		if (sol[i] == x)
 			return true;
 	}
 	return false;
+}
+
+void simpul::printsol() {
+	printf("solusi = { ");
+	for (int i = 0; i < usimpul; i++)
+		printf("%d ",sol[i]);
+	printf("}\n");
+	printf("bobot = %f\n", bobot);
 }
 
 TSP::TSP() {
@@ -147,7 +161,6 @@ float TSP::getbobot(int arr[]) {
 				}
 			}
 		}
-		cout << i << "   " << sum << endl;
 		idxp = -1;
 		ikiri = ikanan = -1;
 	}
@@ -161,14 +174,13 @@ int* TSP::carisolusi() {
 	top = tr.begin();
 	simpul S;
 	S.sol[0] = 0;
-	S.sol[1] = 1;
 	S.sol[ukuran] = 0;
 	float bobot = getbobot(S.sol);
-	cout << endl << "bobot = " << bobot;
 	S.bobot = bobot;
+	bobot_awal = bobot;
 	root = tr.insert(top, S);
 	now = tr.begin();
-	cout << endl << "bobot = " << now->bobot;
+	buatpohon(root);
 	return NULL;
 }
 
@@ -177,14 +189,32 @@ void TSP::buatpohon(tree<simpul> t) {
 	root = t.begin();
 	if (root->gethidup()) {
 		if (root->is_daun()) {
+			printf("daun bobot %f\n", root->bobot);
 			//kasus 1: simpul adalah daun
 			if (best_sol_so_far.kosong()) {
+				//kasus 1.1: best sol so far kosong
+				//printf("%f\n", root->bobot);
 				best_sol_so_far = *root;
+				best_sol_so_far.bobot = (root->bobot);
+			}
+			else {
+				//kasus 1.2: best sol so far ada
+				if (best_sol_so_far.bobot > (root->bobot)) {
+					//printf("%f\n", root->bobot);
+					best_sol_so_far = *root;
+					best_sol_so_far.bobot = (root->bobot);
+				}
 			}
 		}
 		else {
 			//kasus 2: simpul bukan daun
-			//hidupkan anak-anaknya
+			//jika sudah melebihi bobot awal, bunuh, keluar.
+			if (root->bobot > bobot_awal) {
+				printf("return bobot %f\n", root->bobot);
+				root->hidup = false;
+				return;
+			}
+			//jika tidak, hidupkan anak-anaknya
 			simpul temp;
 			for (int i = 0; i < usimpul; i++)
 				temp.sol[i] = root->sol[i];
@@ -194,19 +224,25 @@ void TSP::buatpohon(tree<simpul> t) {
 					//tambahkan simpul baru ke anak
 					temp.sol[idx] = i;
 					temp.setbobot();
-					t.append_child(t.begin(), temp);
+					p = t.append_child(t.begin(), temp);
+					p->printsol();
 				}
 			}
 			//lakukan rekursif
 			tree<simpul>::sibling_iterator s;
 			s = t.begin(t.begin());
+			int ii = 0;
 			while (s != t.end(t.begin())) {
+				//s->printsol();
 				buatpohon(s);
 				++s;
+				ii++;
 			}
+			printf("%d\n", ii);
 		}
 	}
 	else {
+		printf("return bobot %f\n", root->bobot);
 		return;
 	}
 }
