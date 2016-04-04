@@ -3,8 +3,54 @@
 
 using namespace std;
 
-TSP::TSP(int s) {
-	ukuran = s;
+simpul::simpul() {
+	sol = new int[usimpul];
+	for (int i = 0; i < usimpul; i++)
+		sol[i] = -1;
+	hidup = true;
+	bobot = -1;
+}
+
+int simpul::getfirstundef() {
+	for (int i = 0; i < usimpul; i++) {
+		if (sol[i] == -1)
+			return i;
+	}
+	return -1;
+}
+
+bool simpul::gethidup() { return hidup; }
+
+void simpul::sethidup(bool x) { hidup = x; }
+
+void simpul::setbobot() {
+	TSP t;
+	bobot = t.getbobot(sol);
+}
+
+bool simpul::is_daun() {
+	if (getfirstundef() == -1)
+		return true;
+	return false;
+}
+
+bool simpul::kosong() {
+	for (int i = 1; i < ukuran; i++) {
+		if (sol[i] != -1)
+			return false;
+	}
+	return true;
+}
+bool simpul::insol(int x) {
+	for (int i = 0; i < usimpul; i++) {
+		if (sol[i] == x)
+			return true;
+	}
+	return false;
+}
+
+TSP::TSP() {
+	//do nothing
 }
 
 void TSP::get2min(int idx, int* imin1, int* imin2) {
@@ -109,21 +155,58 @@ float TSP::getbobot(int arr[]) {
 	return sum;
 }
 
-simpul TSP::carisolusi() {
+int* TSP::carisolusi() {
 	tree<simpul> tr;
-	tree<simpul>::iterator top,root;
+	tree<simpul>::iterator top,root,now;
 	top = tr.begin();
 	simpul S;
-	S.hidup = true;
-	S.sol = new int[ukuran+1];
-	for (int i = 0; i < ukuran; i++)
-		S.sol[i] = -1;
 	S.sol[0] = 0;
+	S.sol[1] = 1;
 	S.sol[ukuran] = 0;
 	float bobot = getbobot(S.sol);
 	cout << endl << "bobot = " << bobot;
 	S.bobot = bobot;
 	root = tr.insert(top, S);
-	cout << endl << "bobot = " << root->bobot;
-	return S;
+	now = tr.begin();
+	cout << endl << "bobot = " << now->bobot;
+	return NULL;
+}
+
+void TSP::buatpohon(tree<simpul> t) {
+	tree<simpul>::iterator root,p;
+	root = t.begin();
+	if (root->gethidup()) {
+		if (root->is_daun()) {
+			//kasus 1: simpul adalah daun
+			if (best_sol_so_far.kosong()) {
+				best_sol_so_far = *root;
+			}
+		}
+		else {
+			//kasus 2: simpul bukan daun
+			//hidupkan anak-anaknya
+			simpul temp;
+			for (int i = 0; i < usimpul; i++)
+				temp.sol[i] = root->sol[i];
+			int idx = root->getfirstundef();
+			for (int i = 0; i < ukuran; i++) {
+				if (!(root->insol(i))) {
+					//tambahkan simpul baru ke anak
+					temp.sol[idx] = i;
+					temp.setbobot();
+					t.append_child(t.begin(), temp);
+				}
+			}
+			//lakukan rekursif
+			tree<simpul>::sibling_iterator s;
+			s = t.begin(t.begin());
+			while (s != t.end(t.begin())) {
+				buatpohon(s);
+				++s;
+			}
+		}
+	}
+	else {
+		return;
+	}
 }

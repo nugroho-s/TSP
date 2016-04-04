@@ -13,8 +13,11 @@
 
 using namespace std;
 
+//extern declaration
 int mati[maks][maks];
 int ukuran;
+int usimpul;
+simpul best_sol_so_far;
 
 #define delim ',' //delimiter(pemisah) file input
 
@@ -39,11 +42,7 @@ int main() {
 	int kolom = 0;
 	int temp;
 	ukuran = c;
-	/*solusi = new int[ukuran+1];
-	solusi[0] = 0;
-	solusi[ukuran] = 0;
-	for (int i = 1; i < ukuran; i++)
-		solusi[i] = -1;*/
+	usimpul = c + 1;
 	for (int i = 0; i < c; i++) {
 		pch = strtok(matc[i], ",");
 		while (pch != NULL) {
@@ -59,7 +58,7 @@ int main() {
 			pch = strtok(NULL, ",");
 		}
 	}
-	TSP tsp(c);
+	TSP tsp;
 	printmatriks(mati, c,digit);
 	inf.close();
 	tsp.carisolusi();
